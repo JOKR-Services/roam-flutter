@@ -185,13 +185,11 @@ public class SwiftRoamFlutterPlugin: NSObject, FlutterPlugin, RoamDelegate {
         }
     }
 
-
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         switch (call.method) {
         case SwiftRoamFlutterPlugin.METHOD_INITIALIZE:
-            let arguments = call.arguments as! [String: Any]
-            let publishKey = arguments["publishKey"]  as! String;
-            Roam.initialize(publishKey)
+            initialize(call, result)
+
         case SwiftRoamFlutterPlugin.METHOD_CREATE_USER:
             let arguments = call.arguments as! [String: Any]
             let description = arguments["description"]  as! String;
@@ -772,7 +770,12 @@ public class SwiftRoamFlutterPlugin: NSObject, FlutterPlugin, RoamDelegate {
         }
     }
     
-    
+    private func initialize(_ call: FlutterMethodCall,_ result: @escaping FlutterResult) {
+        let arguments = call.arguments as! [String: Any]
+        let publishKey = arguments["publishKey"]  as! String;
+        Roam.initialize(publishKey)
+        result(true)
+    }
     
     //JSON encode
     
