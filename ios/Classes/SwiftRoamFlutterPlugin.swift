@@ -883,11 +883,17 @@ public class SwiftRoamFlutterPlugin: NSObject, FlutterPlugin, RoamDelegate {
     
     public static func encodeRoamTripRoutes(routes: [RoamTripRoutes]) -> [[String: Any]] {
         var routesList = [[String: Any]]()
-        for route in routes{
+        
+        for route in routes {
+            guard let coordinates = route.coordinates else {
+                continue
+            }
+
             let coordinate: [String: Any] = [
                 "type": "" as String,
-                "coordinates": route.coordinates as [Double]
+                "coordinates": coordinates
             ]
+
             let routeDictionary: [String: Any] = [
                 "metadata": "" as String,
                 "activity": (route.activity ?? "") as String,
@@ -900,8 +906,10 @@ public class SwiftRoamFlutterPlugin: NSObject, FlutterPlugin, RoamDelegate {
                 "recorded_at": (route.recordedAt ?? "") as String,
                 "location_id": "" as String
             ]
+
             routesList.append(routeDictionary)
         }
+        
         return routesList
     }
     
